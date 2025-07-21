@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (typeof supabase === 'undefined') {
         console.warn('Supabase no está cargado. Reintentando en 1 segundo...');
-        setTimeout(() => window.location.reload(), 500);
+        setTimeout(() => window.location.reload(), 1000);
         return;
     }
 

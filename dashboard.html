@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MagVet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="shortcut icon" href="assets/MagVet.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tinymce@6/skins/ui/oxide/content.min.css" rel="stylesheet">
+    <style>
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #2F6673;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: #F27B35;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logout-btn {
+            background-color: #F27B35;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #e06c00;
+        }
+
+        .dashboard-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section h2 {
+            color: #2F6673;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2F6673;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        .save-btn {
+            background-color: #2F6673;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .save-btn:hover {
+            background-color: #1e4d5a;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .images-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .delete-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .tab-container {
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loading-spinner {
+            display: none;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #2F6673;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Estilos adicionales para la sección Hero */
+        .image-preview-container {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px dashed #ddd;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/MagVet.png" alt="MagVet">
+                <h2>MagVet Admin</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-section="home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#" data-section="hero"><i class="fas fa-image"></i> Sección principal</a></li>
+                <li><a href="#" data-section="about"><i class="fas fa-info-circle"></i> Sobre Nosotros</a></li>
+                <li><a href="#" data-section="services"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                <li><a href="#" data-section="contact"><i class="fas fa-address-book"></i> Contacto</a></li>
+                <li><a href="#" data-section="links"><i class="fa-solid fa-location-dot"></i> dirección</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Panel de Administración</h1>
+                <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+            </div>
+
+            <div id="homeSection" class="dashboard-section">
+                <h2>Bienvenido al Panel de Administración</h2>
+                <p>Desde aquí puedes gestionar todo el contenido de tu sitio web MagVet.</p>
+                <p>Selecciona una sección del menú lateral para comenzar.</p>
+            </div>
+
+            <!-- Sección Hero -->
+            <div id="heroSection" class="dashboard-section" style="display: none;">
+                <h2>Sección principal</h2>
+
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="hero-content">Contenido Principal</div>
+                        <div class="tab" data-tab="hero-links">Enlaces de Contacto</div>
+                    </div>
+
+                    <!-- Contenido Principal -->
+                    <div id="hero-content" class="tab-content active">
+                        <div class="form-group">
+                            <label>Logo Actual</label>
+                            <div class="image-preview-container">
+                                <img id="current-hero-logo" src="" alt="Logo Actual" class="image-preview">
+                            </div>
+                            <label for="new-hero-logo">Cambiar Logo</label>
+                            <input type="file" id="new-hero-logo" accept="image/*">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hero-title">Título Principal</label>
+                            <input type="text" id="hero-title" placeholder="Ej: Bienvenido a MagVet">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hero-subtitle">Subtítulo</label>
+                            <input type="text" id="hero-subtitle" placeholder="Ej: Tu veterinaria de confianza">
+                        </div>
+
+                        <button class="save-btn" id="save-hero-content">Guardar Cambios</button>
+                        <div class="loading-spinner" id="hero-spinner"></div>
+                    </div>
+
+                    <!-- Enlaces de Contacto -->
+                    <div id="hero-links" class="tab-content">
+                        <div class="form-group">
+                            <label for="phone-link">Teléfono (ej: +573054460425)</label>
+                            <input type="text" id="phone-link" placeholder="Número de teléfono">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email-link">Email</label>
+                            <input type="email" id="email-link" placeholder="Correo electrónico">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="website-link">Enlace a Sitio Web</label>
+                            <input type="url" id="website-link" placeholder="URL de sitio web">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facebook-link">Facebook</label>
+                            <input type="url" id="facebook-link" placeholder="URL de Facebook">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="instagram-link">Instagram</label>
+                            <input type="url" id="instagram-link" placeholder="URL de Instagram">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="whatsapp-link">WhatsApp</label>
+                            <input type="text" id="whatsapp-link" placeholder="Número de WhatsApp">
+                        </div>
+
+                        <button class="save-btn" id="save-hero-links">Guardar Enlaces</button>
+                        <div class="loading-spinner" id="links-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Sobre Nosotros -->
+            <div id="aboutSection" class="dashboard-section" style="display: none;">
+                <h2>Sobre Nosotros</h2>
+
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="about-content">Contenido</div>
+                        <div class="tab" data-tab="about-images">Imágenes</div>
+                    </div>
+
+                    <!-- Editor de Contenido -->
+                    <div id="about-content" class="tab-content active">
+                        <div class="form-group">
+                            <label>Editor de Contenido</label>
+                            <textarea id="about-editor" class="html-editor"></textarea>
+                        </div>
+
+                        <button class="save-btn" id="save-about-content">Guardar Contenido</button>
+                        <div class="loading-spinner" id="about-content-spinner"></div>
+                    </div>
+
+                    <!-- Gestión de Imágenes -->
+                    <div id="about-images" class="tab-content">
+                        <div class="form-group">
+                            <label>Imágenes Actuales</label>
+                            <div class="images-container" id="current-about-images"></div>
+
+                            <label for="new-about-images">Añadir Imágenes (Máx. 3)</label>
+                            <input type="file" id="new-about-images" accept="image/*" multiple>
+                        </div>
+
+                        <button class="save-btn" id="save-about-images">Guardar Imágenes</button>
+                        <div class="loading-spinner" id="about-images-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Servicios -->
+            <div id="servicesSection" class="dashboard-section" style="display: none;">
+                <h2>Servicios</h2>
+
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="services-content">Contenido</div>
+                        <div class="tab" data-tab="services-images">Imágenes</div>
+                    </div>
+
+                    <!-- Editor de Contenido -->
+                    <div id="services-content" class="tab-content active">
+                        <div class="form-group">
+                            <label>Editor de Contenido</label>
+                            <textarea id="services-editor" class="html-editor"></textarea>
+                        </div>
+
+                        <button class="save-btn" id="save-services-content">Guardar Contenido</button>
+                        <div class="loading-spinner" id="services-content-spinner"></div>
+                    </div>
+
+                    <!-- Gestión de Imágenes -->
+                    <div id="services-images" class="tab-content">
+                        <div class="form-group">
+                            <label>Imágenes Actuales</label>
+                            <div class="images-container" id="current-services-images"></div>
+
+                            <label for="new-services-images">Añadir Imágenes (Máx. 3)</label>
+                            <input type="file" id="new-services-images" accept="image/*" multiple>
+                        </div>
+
+                        <button class="save-btn" id="save-services-images">Guardar Imágenes</button>
+                        <div class="loading-spinner" id="services-images-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Contacto -->
+            <div id="contactSection" class="dashboard-section" style="display: none;">
+                <h2>Contacto</h2>
+
+                <div class="form-group">
+                    <label for="contact-phone">Teléfono</label>
+                    <input type="text" id="contact-phone" placeholder="Número de teléfono">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-phone-text">Texto visible para teléfono</label>
+                    <input type="text" id="contact-phone-text" placeholder="Ej: Llámanos al 3054460425">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-email">Email</label>
+                    <input type="email" id="contact-email" placeholder="Correo electrónico">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-email-text">Texto visible para email</label>
+                    <input type="text" id="contact-email-text" placeholder="Ej: Escríbenos a jbdaconte@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-whatsapp">Número de WhatsApp</label>
+                    <input type="text" id="contact-whatsapp" placeholder="Número con código de país">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-whatsapp-text">Texto visible para WhatsApp</label>
+                    <input type="text" id="contact-whatsapp-text" placeholder="Ej: Escríbenos por WhatsApp">
+                </div>
+
+                <button class="save-btn" id="save-contact">Guardar Contacto</button>
+                <div class="loading-spinner" id="contact-spinner"></div>
+            </div>
+
+            <!-- Sección Enlaces -->
+            <div id="linksSection" class="dashboard-section" style="display: none;">
+                <h2>Google Maps</h2>
+
+                <div class="form-group">
+                    <label for="maps-embed-url">URL de Embed de Google Maps</label>
+                    <textarea id="maps-embed-url" rows="6"
+                        placeholder="Pega aquí el código embed completo de Google Maps"></textarea>
+                    <p class="help-text">Para obtener este código: 1) Ve a Google Maps, 2) Haz clic en "Compartir", 3)
+                        Selecciona "Insertar un mapa", 4) Copia el código iframe</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Vista previa:</label>
+                    <div id="maps-preview"
+                        style="width: 100%; height: 300px; background: #f5f5f5; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center;">
+                        <p>La vista previa aparecerá aquí</p>
+                    </div>
+                </div>
+
+                <button class="save-btn" id="save-maps-url">Guardar Mapa</button>
+                <div class="loading-spinner" id="maps-spinner"></div>
+            </div>
+
+            <!-- (Mantén las otras secciones existentes: about, services, contact, links) -->
+
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+    <script src="image-optimizer.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Estado global del dashboard
+        window.dashboardState = {
+            initialized: false,
+            eventsConfigured: false
+        };
+
+        // Función para mostrar errores al usuario
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.position = 'fixed';
+            errorDiv.style.bottom = '20px';
+            errorDiv.style.right = '20px';
+            errorDiv.style.backgroundColor = '#ff4444';
+            errorDiv.style.color = 'white';
+            errorDiv.style.padding = '15px';
+            errorDiv.style.borderRadius = '5px';
+            errorDiv.style.zIndex = '10000';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `optimization-notification ${type}`;
+            notification.textContent = message;
+
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '10px 20px';
+            notification.style.backgroundColor = type === 'success' ? '#4CAF50' :
+                type === 'error' ? '#f44336' :
+                    type === 'warning' ? '#ff9800' : '#2196F3';
+            notification.style.color = 'white';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '10000';
+            notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // 1. FUNCIONES DE OPTIMIZACIÓN DE IMÁGENES
+        /**
+         * Optimiza una imagen antes de subirla
+         * @param {File} file - Archivo de imagen
+         * @param {Object} options - {maxWidth: number, quality: number, type: string}
+         * @returns {Promise<File>} - Imagen optimizada
+         */
+        async function optimizeImage(file, options = {}) {
+            const { maxWidth = 1200, quality = 0.8, type = 'webp' } = options;
+            const mimeType = `image/${type}`;
+
+            return new Promise((resolve, reject) => {
+                if (!file.type.match('image.*')) {
+                    return reject(new Error('El archivo no es una imagen válida'));
+                }
+
+                const reader = new FileReader();
+                reader.onload = async function (event) {
+                    try {
+                        const img = new Image();
+                        img.src = event.target.result;
+
+                        await new Promise((resolve) => {
+                            img.onload = resolve;
+                            img.onerror = () => reject(new Error('Error al cargar la imagen'));
+                        });
+
+                        // Calcular nuevas dimensiones
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+
+                        // Crear canvas para redimensionar
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Convertir a formato deseado
+                        canvas.toBlob((blob) => {
+                            if (!blob) {
+                                return reject(new Error('Error en la conversión de imagen'));
+                            }
+
+                            const optimizedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.webp', {
+                                type: mimeType,
+                                lastModified: Date.now()
+                            });
+
+                            // Mostrar info de optimización
+                            const originalSize = (file.size / 1024).toFixed(2);
+                            const optimizedSize = (optimizedFile.size / 1024).toFixed(2);
+                            const reduction = ((1 - (optimizedFile.size / file.size)) * 100).toFixed(2);
+
+                            showNotification(`Imagen optimizada: reducida ${reduction}% (${originalSize}KB → ${optimizedSize}KB)`, 'success');
+
+                            resolve(optimizedFile);
+                        }, mimeType, quality);
+
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /**
+         * Sube una imagen optimizada a Supabase
+         * @param {File} file - Archivo de imagen
+         * @param {string} folder - Carpeta de destino
+         * @param {Object} options - Opciones de optimización
+         * @returns {Promise<string>} - URL pública
+         */
+        async function uploadImage(file, folder = 'general', options = {}) {
+            try {
+                // Configuración por defecto con valores específicos por carpeta
+                const defaultOptions = {
+                    hero: { maxWidth: 800, quality: 0.85, type: 'webp' },
+                    about: { maxWidth: 1200, quality: 0.8, type: 'webp' },
+                    services: { maxWidth: 1200, quality: 0.8, type: 'webp' },
+                    general: { maxWidth: 1000, quality: 0.8, type: 'webp' }
+                };
+
+                const settings = defaultOptions[folder] || defaultOptions.general;
+                const finalOptions = { ...settings, ...options };
+
+                // Optimizar la imagen
+                const optimizedFile = await optimizeImage(file, finalOptions);
+
+                // Generar nombre único
+                const fileName = `${folder}-${Date.now()}.webp`;
+                const filePath = `${folder}/${fileName}`;
+
+                // Subir a Supabase
+                const { error: uploadError } = await supabase.storage
+                    .from('images')
+                    .upload(filePath, optimizedFile, {
+                        cacheControl: '3600',
+                        upsert: false,
+                        contentType: 'image/webp'
+                    });
+
+                if (uploadError) throw uploadError;
+
+                // Obtener URL pública
+                const { data: { publicUrl } } = supabase.storage
+                    .from('images')
+                    .getPublicUrl(filePath);
+
+                return publicUrl.startsWith('http') ?
+                    publicUrl.replace('http://', 'https://') :
+                    `https://${publicUrl}`;
+
+            } catch (error) {
+                console.error('Error subiendo imagen:', error);
+                showError('Error al procesar la imagen: ' + error.message);
+                throw error;
+            }
+        }
+
+        // 2. FUNCIONES PARA HERO SECTION
+        async function loadHeroContent() {
+            try {
+                const { data, error } = await supabase
+                    .from('hero_content')
+                    .select('*')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    const logoImg = document.getElementById('current-hero-logo');
+                    if (data.logo_url) {
+                        let imageUrl = data.logo_url;
+
+                        if (!imageUrl.startsWith('http') && imageUrl.includes('hero/')) {
+                            const { data: { publicUrl } } = supabase.storage
+                                .from('images')
+                                .getPublicUrl(imageUrl.split('hero/')[1]);
+                            imageUrl = publicUrl;
+                        }
+
+                        logoImg.src = imageUrl.startsWith('http') ?
+                            `${imageUrl.replace('http://', 'https://')}?t=${Date.now()}` :
+                            `https://${imageUrl}?t=${Date.now()}`;
+
+                        logoImg.onerror = () => logoImg.src = 'assets/MagVet.png';
+                    } else {
+                        logoImg.src = 'assets/MagVet.png';
+                    }
+
+                    document.getElementById('hero-title').value = data.title || '';
+                    document.getElementById('hero-subtitle').value = data.subtitle || '';
+
+                    if (data.links) {
+                        document.getElementById('phone-link').value = data.links.phone || '';
+                        document.getElementById('email-link').value = data.links.email || '';
+                        document.getElementById('website-link').value = data.links.website || '';
+                        document.getElementById('facebook-link').value = data.links.facebook || '';
+                        document.getElementById('instagram-link').value = data.links.instagram || '';
+                        document.getElementById('whatsapp-link').value = data.links.whatsapp || '';
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando Hero content:', error);
+                showError('Error cargando sección Hero');
+            }
+        }
+
+        async function saveHeroData(data) {
+            try {
+                if (!data.links) {
+                    const { data: existing } = await supabase
+                        .from('hero_content')
+                        .select('links')
+                        .eq('id', 1)
+                        .single();
+
+                    data.links = existing?.links || {};
+                }
+
+                const { error } = await supabase
+                    .from('hero_content')
+                    .upsert({
+                        id: 1,
+                        ...data
+                    }, { onConflict: 'id' });
+
+                if (error) throw error;
+                return true;
+            } catch (error) {
+                console.error('Error guardando datos Hero:', error);
+                throw error;
+            }
+        }
+
+        async function saveHeroContent() {
+            const spinner = document.getElementById('hero-spinner');
+            try {
+                spinner.style.display = 'block';
+
+                const title = document.getElementById('hero-title').value;
+                const subtitle = document.getElementById('hero-subtitle').value;
+                const fileInput = document.getElementById('new-hero-logo');
+
+                let logoUrl = document.getElementById('current-hero-logo').src;
+
+                if (fileInput.files && fileInput.files[0]) {
+                    logoUrl = await uploadImage(fileInput.files[0], 'hero');
+                    fileInput.value = '';
+                    document.getElementById('current-hero-logo').src = `${logoUrl}?t=${Date.now()}`;
+
+                    if ('BroadcastChannel' in window) {
+                        const channel = new BroadcastChannel('logo-update');
+                        channel.postMessage({
+                            type: 'logo-updated',
+                            timestamp: Date.now()
+                        });
+                    }
+                }
+
+                const storagePath = logoUrl.includes('hero/') ? logoUrl : '';
+
+                await saveHeroData({
+                    logo_url: storagePath,
+                    title: title,
+                    subtitle: subtitle,
+                    links: {}
+                });
+
+                showNotification('¡Contenido Hero guardado correctamente!', 'success');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar Hero: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function saveHeroLinks() {
+            const spinner = document.getElementById('links-spinner');
+            try {
+                spinner.style.display = 'block';
+
+                const { data: existing } = await supabase
+                    .from('hero_content')
+                    .select('logo_url, title, subtitle')
+                    .eq('id', 1)
+                    .single();
+
+                await saveHeroData({
+                    logo_url: existing?.logo_url || '',
+                    title: existing?.title || '',
+                    subtitle: existing?.subtitle || '',
+                    links: {
+                        phone: document.getElementById('phone-link').value,
+                        email: document.getElementById('email-link').value,
+                        website: document.getElementById('website-link').value,
+                        facebook: document.getElementById('facebook-link').value,
+                        instagram: document.getElementById('instagram-link').value,
+                        whatsapp: document.getElementById('whatsapp-link').value
+                    }
+                });
+
+                showNotification('¡Enlaces Hero guardados correctamente!', 'success');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar enlaces Hero: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // 3. FUNCIONES PARA ABOUT SECTION
+        async function loadAboutContent() {
+            try {
+                const { data, error } = await supabase
+                    .from('about_content')
+                    .select('*')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    if (tinymce.get('about-editor')) {
+                        tinymce.get('about-editor').setContent(data.content_html || '');
+                    }
+
+                    const imagesContainer = document.getElementById('current-about-images');
+                    imagesContainer.innerHTML = '';
+
+                    if (data.images && data.images.length > 0) {
+                        data.images.forEach((imgUrl, index) => {
+                            if (imgUrl) {
+                                const imageItem = document.createElement('div');
+                                imageItem.className = 'image-item';
+
+                                const img = document.createElement('img');
+                                img.src = `${imgUrl}?t=${Date.now()}`;
+                                img.className = 'image-preview';
+                                img.onerror = () => img.src = 'assets/default-image.jpg';
+
+                                const deleteBtn = document.createElement('button');
+                                deleteBtn.className = 'delete-image';
+                                deleteBtn.innerHTML = '×';
+                                deleteBtn.onclick = () => deleteAboutImage(index);
+
+                                imageItem.appendChild(img);
+                                imageItem.appendChild(deleteBtn);
+                                imagesContainer.appendChild(imageItem);
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando About content:', error);
+                showError('Error cargando sección About');
+            }
+        }
+
+        async function deleteAboutImage(index) {
+            try {
+                const { data: currentData } = await supabase
+                    .from('about_content')
+                    .select('images')
+                    .eq('id', 1)
+                    .single();
+
+                if (currentData?.images) {
+                    const updatedImages = [...currentData.images];
+                    updatedImages.splice(index, 1);
+
+                    const { error } = await supabase
+                        .from('about_content')
+                        .update({ images: updatedImages })
+                        .eq('id', 1);
+
+                    if (error) throw error;
+
+                    loadAboutContent();
+                    showNotification('Imagen eliminada correctamente', 'success');
+                }
+            } catch (error) {
+                console.error('Error eliminando imagen:', error);
+                showError('Error al eliminar imagen: ' + error.message);
+            }
+        }
+
+        async function saveAboutContent() {
+            const spinner = document.getElementById('about-content-spinner');
+            try {
+                spinner.style.display = 'block';
+
+                const content = tinymce.get('about-editor').getContent();
+
+                const { error } = await supabase
+                    .from('about_content')
+                    .update({ content_html: content })
+                    .eq('id', 1);
+
+                if (error) throw error;
+                showNotification('¡Contenido About guardado correctamente!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar About: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function saveAboutImages() {
+            const spinner = document.getElementById('about-images-spinner');
+            const fileInput = document.getElementById('new-about-images');
+
+            try {
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    showNotification('No se seleccionaron imágenes', 'warning');
+                    return;
+                }
+
+                spinner.style.display = 'block';
+
+                const { data: currentData } = await supabase
+                    .from('about_content')
+                    .select('images')
+                    .eq('id', 1)
+                    .single();
+
+                let currentImages = currentData?.images || [];
+
+                // Subir hasta 3 imágenes nuevas
+                const uploadPromises = [];
+                for (let i = 0; i < Math.min(fileInput.files.length, 3); i++) {
+                    uploadPromises.push(uploadImage(fileInput.files[i], 'about'));
+                }
+
+                const newUrls = await Promise.all(uploadPromises);
+                currentImages = [...currentImages, ...newUrls].slice(0, 3); // Mantener máximo 3 imágenes
+
+                const { error } = await supabase
+                    .from('about_content')
+                    .update({ images: currentImages })
+                    .eq('id', 1);
+
+                if (error) throw error;
+
+                fileInput.value = '';
+                showNotification('¡Imágenes About guardadas correctamente!', 'success');
+                loadAboutContent();
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar imágenes About: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // 4. FUNCIONES PARA SERVICES SECTION
+        async function loadServicesContent() {
+            try {
+                const { data, error } = await supabase
+                    .from('services_content')
+                    .select('*')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    if (tinymce.get('services-editor')) {
+                        tinymce.get('services-editor').setContent(data.content_html || '');
+                    }
+
+                    const imagesContainer = document.getElementById('current-services-images');
+                    imagesContainer.innerHTML = '';
+
+                    if (data.images && data.images.length > 0) {
+                        data.images.forEach((imgUrl, index) => {
+                            if (imgUrl) {
+                                const imageItem = document.createElement('div');
+                                imageItem.className = 'image-item';
+
+                                const img = document.createElement('img');
+                                img.src = `${imgUrl}?t=${Date.now()}`;
+                                img.className = 'image-preview';
+                                img.onerror = () => img.src = 'assets/default-image.jpg';
+
+                                const deleteBtn = document.createElement('button');
+                                deleteBtn.className = 'delete-image';
+                                deleteBtn.innerHTML = '×';
+                                deleteBtn.onclick = () => deleteServicesImage(index);
+
+                                imageItem.appendChild(img);
+                                imageItem.appendChild(deleteBtn);
+                                imagesContainer.appendChild(imageItem);
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando Services content:', error);
+                showError('Error cargando sección Services');
+            }
+        }
+
+        async function deleteServicesImage(index) {
+            try {
+                const { data: currentData } = await supabase
+                    .from('services_content')
+                    .select('images')
+                    .eq('id', 1)
+                    .single();
+
+                if (currentData?.images) {
+                    const updatedImages = [...currentData.images];
+                    updatedImages.splice(index, 1);
+
+                    const { error } = await supabase
+                        .from('services_content')
+                        .update({ images: updatedImages })
+                        .eq('id', 1);
+
+                    if (error) throw error;
+
+                    loadServicesContent();
+                    showNotification('Imagen eliminada correctamente', 'success');
+                }
+            } catch (error) {
+                console.error('Error eliminando imagen:', error);
+                showError('Error al eliminar imagen: ' + error.message);
+            }
+        }
+
+        async function saveServicesContent() {
+            const spinner = document.getElementById('services-content-spinner');
+            try {
+                spinner.style.display = 'block';
+
+                const content = tinymce.get('services-editor').getContent();
+
+                const { error } = await supabase
+                    .from('services_content')
+                    .update({ content_html: content })
+                    .eq('id', 1);
+
+                if (error) throw error;
+                showNotification('¡Contenido Services guardado correctamente!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar Services: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function saveServicesImages() {
+            const spinner = document.getElementById('services-images-spinner');
+            const fileInput = document.getElementById('new-services-images');
+
+            try {
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    showNotification('No se seleccionaron imágenes', 'warning');
+                    return;
+                }
+
+                spinner.style.display = 'block';
+
+                const { data: currentData } = await supabase
+                    .from('services_content')
+                    .select('images')
+                    .eq('id', 1)
+                    .single();
+
+                let currentImages = currentData?.images || [];
+
+                const uploadPromises = [];
+                for (let i = 0; i < Math.min(fileInput.files.length, 3); i++) {
+                    uploadPromises.push(uploadImage(fileInput.files[i], 'services'));
+                }
+
+                const newUrls = await Promise.all(uploadPromises);
+                currentImages = [...currentImages, ...newUrls].slice(0, 3);
+
+                const { error } = await supabase
+                    .from('services_content')
+                    .update({ images: currentImages })
+                    .eq('id', 1);
+
+                if (error) throw error;
+
+                fileInput.value = '';
+                showNotification('¡Imágenes Services guardadas correctamente!', 'success');
+                loadServicesContent();
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar imágenes Services: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // 5. FUNCIONES PARA CONTACT SECTION
+        async function loadContactContent() {
+            try {
+                const { data, error } = await supabase
+                    .from('contact_content')
+                    .select('*')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    document.getElementById('contact-phone').value = data.phone || '';
+                    document.getElementById('contact-phone-text').value = data.phone_text || '';
+                    document.getElementById('contact-email').value = data.email || '';
+                    document.getElementById('contact-email-text').value = data.email_text || '';
+                    document.getElementById('contact-whatsapp').value = data.whatsapp || '';
+                    document.getElementById('contact-whatsapp-text').value = data.whatsapp_text || '';
+                }
+            } catch (error) {
+                console.error('Error cargando Contact content:', error);
+                showError('Error cargando sección Contact');
+            }
+        }
+
+        async function saveContactContent() {
+            const spinner = document.getElementById('contact-spinner');
+            try {
+                spinner.style.display = 'block';
+
+                const contactData = {
+                    phone: document.getElementById('contact-phone').value,
+                    phone_text: document.getElementById('contact-phone-text').value,
+                    email: document.getElementById('contact-email').value,
+                    email_text: document.getElementById('contact-email-text').value,
+                    whatsapp: document.getElementById('contact-whatsapp').value,
+                    whatsapp_text: document.getElementById('contact-whatsapp-text').value
+                };
+
+                const { error } = await supabase
+                    .from('contact_content')
+                    .upsert({
+                        id: 1,
+                        ...contactData
+                    }, { onConflict: 'id' });
+
+                if (error) throw error;
+
+                showNotification('¡Datos de contacto guardados correctamente!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar contacto: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // 6. FUNCIONES PARA LINKS SECTION (GOOGLE MAPS)
+        async function loadLinksContent() {
+            try {
+                const { data, error } = await supabase
+                    .from('links_content')
+                    .select('maps_embed_url')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                if (data && data.maps_embed_url) {
+                    document.getElementById('maps-embed-url').value = data.maps_embed_url;
+                    updateMapsPreview(data.maps_embed_url);
+                }
+            } catch (error) {
+                console.error('Error cargando Links content:', error);
+                showError('Error cargando enlaces de mapa');
+            }
+        }
+
+        function updateMapsPreview(embedCode) {
+            const previewContainer = document.getElementById('maps-preview');
+            if (!embedCode) {
+                previewContainer.innerHTML = '<p>La vista previa aparecerá aquí</p>';
+                return;
+            }
+
+            const srcMatch = embedCode.match(/src="([^"]*)"/);
+            if (srcMatch && srcMatch[1]) {
+                previewContainer.innerHTML = `<iframe src="${srcMatch[1]}" width="100%" height="100%" style="border:0;"></iframe>`;
+            } else {
+                previewContainer.innerHTML = '<p>Formato de URL no válido</p>';
+            }
+        }
+
+        async function saveMapsUrl() {
+            const spinner = document.getElementById('maps-spinner');
+            try {
+                spinner.style.display = 'block';
+                const embedCode = document.getElementById('maps-embed-url').value;
+
+                const { error } = await supabase
+                    .from('links_content')
+                    .upsert({
+                        id: 1,
+                        maps_embed_url: embedCode
+                    }, { onConflict: 'id' });
+
+                if (error) throw error;
+
+                showNotification('¡URL de Google Maps guardada correctamente!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al guardar el mapa: ' + error.message);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // 7. FUNCIONES GENERALES DEL DASHBOARD
+        async function checkSession() {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error || !session) {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error verificando sesión:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (!error) window.location.href = 'login.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                showError('Error al cerrar sesión');
+            }
+        }
+
+        function setupUIEvents() {
+            if (window.dashboardState.eventsConfigured) return;
+            window.dashboardState.eventsConfigured = true;
+
+            // Configuración de botones
+            const setupButton = (id, handler) => {
+                const btn = document.getElementById(id);
+                if (btn && !btn._eventConfigured) {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        try {
+                            await handler();
+                        } catch (error) {
+                            console.error(`Error en ${id}:`, error);
+                            showError(`Error en ${id}: ${error.message}`);
+                        }
+                    });
+                    btn._eventConfigured = true;
+                }
+            };
+
+            // Configurar todos los botones
+            setupButton('logoutBtn', handleLogout);
+            setupButton('save-hero-content', saveHeroContent);
+            setupButton('save-hero-links', saveHeroLinks);
+            setupButton('save-about-content', saveAboutContent);
+            setupButton('save-about-images', saveAboutImages);
+            setupButton('save-services-content', saveServicesContent);
+            setupButton('save-services-images', saveServicesImages);
+            setupButton('save-contact', saveContactContent);
+            setupButton('save-maps-url', saveMapsUrl);
+
+            // Configurar eventos del menú
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                if (!link._eventConfigured) {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        document.querySelectorAll('.sidebar-menu a').forEach(a => {
+                            a.classList.remove('active');
+                        });
+                        link.classList.add('active');
+
+                        document.querySelectorAll('.dashboard-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+
+                        const sectionId = link.getAttribute('data-section') + 'Section';
+                        document.getElementById(sectionId).style.display = 'block';
+
+                        // Cargar contenido dinámico según la sección
+                        const loadFunctions = {
+                            'hero': loadHeroContent,
+                            'about': loadAboutContent,
+                            'services': loadServicesContent,
+                            'contact': loadContactContent,
+                            'links': loadLinksContent
+                        };
+
+                        const section = link.getAttribute('data-section');
+                        if (loadFunctions[section]) {
+                            loadFunctions[section]();
+                        }
+                    });
+                    link._eventConfigured = true;
+                }
+            });
+
+            // Configurar eventos de pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                if (!tab._eventConfigured) {
+                    tab.addEventListener('click', function () {
+                        const tabContainer = this.closest('.tab-container');
+                        const tabId = this.getAttribute('data-tab');
+
+                        tabContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                        this.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                    tab._eventConfigured = true;
+                }
+            });
+
+            // Configurar límite de imágenes
+            document.querySelectorAll('input[type="file"][multiple]').forEach(input => {
+                if (!input._eventConfigured) {
+                    input.addEventListener('change', (e) => {
+                        if (e.target.files.length > 3) {
+                            showNotification('Solo puedes subir hasta 3 imágenes', 'warning');
+                            e.target.value = '';
+                        }
+                    });
+                    input._eventConfigured = true;
+                }
+            });
+
+            console.log('Eventos de UI configurados correctamente');
+        }
+
+        // 8. INICIALIZACIÓN DE EDITORES
+        function initializeTinyMCE() {
+            return new Promise((resolve) => {
+                // Editor About
+                tinymce.init({
+                    selector: '#about-editor',
+                    plugins: 'lists link image table help wordcount',
+                    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat help',
+                    height: 500,
+                    init_instance_callback: function (editor) {
+                        console.log('Editor About listo');
+                        resolve();
+                    }
+                });
+
+                // Editor Services
+                tinymce.init({
+                    selector: '#services-editor',
+                    plugins: 'lists link image table help wordcount',
+                    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat help',
+                    height: 500,
+                    init_instance_callback: function (editor) {
+                        console.log('Editor Services listo');
+                    }
+                });
+            });
+        }
+
+        // 9. CARGA DE DATOS INICIALES
+        async function loadInitialData() {
+            try {
+                await Promise.all([
+                    loadHeroContent(),
+                    loadAboutContent(),
+                    loadServicesContent(),
+                    loadContactContent(),
+                    loadLinksContent()
+                ]);
+                console.log('Datos iniciales cargados correctamente');
+                return true;
+            } catch (error) {
+                console.error('Error cargando datos iniciales:', error);
+                showError('Error cargando datos iniciales');
+                return false;
+            }
+        }
+
+        // 10. INICIALIZACIÓN COMPLETA DEL DASHBOARD
+        async function initializeDashboard() {
+            try {
+                // Mostrar estado de carga
+                document.body.classList.add('dashboard-loading');
+
+                // 1. Verificar sesión
+                await checkSession();
+
+                // 2. Cargar datos iniciales
+                await loadInitialData();
+
+                // 3. Inicializar editores
+                await initializeTinyMCE();
+
+                // 4. Configurar eventos de UI
+                setupUIEvents();
+
+                // 5. Marcar como inicializado
+                window.dashboardState.initialized = true;
+                console.log('Dashboard completamente inicializado');
+
+                // 6. Mostrar sección inicial
+                document.getElementById('homeSection').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error inicializando dashboard:', error);
+                showError('Error crítico al cargar el dashboard. Por favor recarga la página.');
+
+                // Reintentar después de 3 segundos
+                setTimeout(() => {
+                    if (!window.dashboardState.initialized) {
+                        console.log('Reintentando inicialización...');
+                        initializeDashboard();
+                    }
+                }, 3000);
+            } finally {
+                // Ocultar estado de carga
+                document.body.classList.remove('dashboard-loading');
+            }
+        }
+
+        // 11. MANEJADOR DE RECARGA SEGURA
+        function setupReloadHandler() {
+            const maxAttempts = 3;
+            let attempts = 0;
+
+            const reloadInterval = setInterval(() => {
+                if (!window.dashboardState.initialized && attempts < maxAttempts) {
+                    attempts++;
+                    console.log(`Reintentando configuración (${attempts}/${maxAttempts})...`);
+
+                    // Reconfigurar eventos
+                    setupUIEvents();
+
+                    // Verificar si TinyMCE está cargado
+                    if (typeof tinymce !== 'undefined' && !window.dashboardState.initialized) {
+                        initializeDashboard();
+                    }
+                } else {
+                    clearInterval(reloadInterval);
+                    if (!window.dashboardState.initialized) {
+                        showError('No se pudo inicializar completamente el dashboard. Por favor recarga la página.');
+                    }
+                }
+            }, 2000);
+        }
+
+        // 12. INICIAR TODO CUANDO SUPABASE ESTÉ LISTO
+        document.addEventListener('supabaseReady', async function () {
+            console.log('Supabase listo, iniciando dashboard...');
+            await initializeDashboard();
+            setupReloadHandler();
+        });
+
+        // 13. INICIALIZACIÓN POR SI EL EVENTO NO SE DISPARA
+        setTimeout(() => {
+            if (typeof supabase !== 'undefined' && !window.dashboardState.initialized) {
+                console.log('Inicializando dashboard por timeout...');
+                const event = new Event('supabaseReady');
+                document.dispatchEvent(event);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

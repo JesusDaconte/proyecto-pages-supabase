@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MagVet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="shortcut icon" href="assets/MagVet.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="logo-cabecera-login">
+        <div class="logo-login">
+            <a href="index.html">
+                <img src="assets/MagVet.png" alt="MagVet" class="header-logo">
+            </a>
+        </div>
+    </div>
+
+    <div class="auth-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Ingresar</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+        <div class="auth-links">
+            <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="dynamic-login.js"></script>
+</body>
+
+</html>

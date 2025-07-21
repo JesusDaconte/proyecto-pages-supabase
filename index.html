@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="shortcut icon" href="assets/MagVet.png" type="image/x-icon">
+    <link rel="stylesheet" href="carrusel.css">
+    <title>MagVet</title>
+</head>
+
+<body>
+
+    <!--Menú escritorio-->
+
+    <header class="cabecera">
+
+        <div class="logo"><a href="index.html"><img src="assets/MagVet.png" alt="MagVet" class="header-logo"></a></div>
+
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#about">Nosotros</a></li>
+                <li><a href="#contact">Servicios</a></li>
+                <li><a href="#services">Contacto</a></li>
+                <li><a href="login.html">Admin</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <!--Menú escritorio-->
+
+    <!--Menú mobile-->
+
+    <div class="cabecera-mobile">
+
+        <div class="logo-mobile"><a href="index.html"><img src="assets/MagVet.png" alt="MagVet" class="header-logo"></a>
+        </div>
+
+        <nav class="menu-mobile">
+            <ul>
+                <li><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="#about"><i class="fa-solid fa-user"></i></a></li>
+                <li><a href="#services"></i><i class="fa-solid fa-briefcase"></i></a></li>
+                <li><a href="#contact"><i class="fa-solid fa-mobile"></i></a></li>
+                <li><a href="login.html"><i class="fas fa-lock"></i></a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <!--Menú mobile-->
+
+    <main class="hero">
+
+        <section class="home" id="home">
+            <!-- Añade la clase logo-hero a la imagen -->
+            <img src="assets/MagVet.png" alt="MagVet Logo" class="logo-hero">
+            <h1>Bienvenido a MagVet</h1>
+            <h2>Tu veterinaria de confianza</h2>
+        </section>
+
+        <section class="botones">
+            <a href="tel:+573054460425" class="boton"><i class="fa-solid fa-mobile"></i></a>
+            <a href="mailto:hospitalveterinariosangabriel@gmail.com" class="boton"><i
+                    class="fa-solid fa-envelope"></i></a>
+            <a target="_blank"
+                href="https://www.google.com/search?q=SAN+GABRIEL+HOSPITAL+VETERINARIO&oq=san&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDkyBggCEEUYOzIGCAMQRRg7MgYIBBBFGD0yBggFEEUYPDIGCAYQRRg8MgYIBxAuGEDSAQgxMzg5ajBqMagCALACAA&sourceid=chrome&ie=UTF-8"
+                class="boton"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a target="_blank" href="https://www.facebook.com/hostpitalvetsangabriel/?locale=es_LA" class="boton"><i
+                    class="fa-brands fa-facebook-f"></i></a>
+            <a target="_blank" href="https://www.instagram.com/sangabrielhv/?hl=es" class="boton"><i
+                    class="fa-brands fa-instagram"></i></a>
+            <a href="wa.me/+573054460425" class="boton"><i class="fa-brands fa-whatsapp"></i></a>
+        </section>
+
+        <div class="flecha"><i class="fa-solid fa-arrow-down"></i></div>
+
+    </main>
+
+    <div class="contenido">
+
+        <h2>Información</h2>
+
+        <section class="seccion" id="about">
+            <div class="imagenes">
+                <!-- Las imágenes se cargarán dinámicamente aquí -->
+            </div>
+            <h3>Sobre nosotros</h3>
+            <div id="about-content" class="about-content">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </div>
+        </section>
+
+        <section class="seccion" id="services">
+            <div class="imagenes">
+                <!-- Las imágenes se cargarán dinámicamente aquí -->
+            </div>
+            <h3>Servicios</h3>
+            <div id="services-content" class="services-content">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </div>
+        </section>
+
+        <section class="seccion" id="contact">
+            <h3>Contacto</h3>
+            <p id="phone-contact"><b><a href="tel:+573054460425" id="phone-link"><i class="fa-solid fa-mobile"></i>
+                        <span id="phone-text">3054460425</span></a></b></p>
+            <p id="email-contact"><b><a href="mailto:jbdaconte@gmail.com" id="email-link"><i
+                            class="fa-solid fa-envelope"></i> <span id="email-text">jbdaconte@gmail.com</span></a></b>
+            </p>
+            <p id="whatsapp-contact"><b><a href="https://wa.me/573054460425" target="_blank" id="whatsapp-link"><i
+                            class="fa-brands fa-whatsapp"></i> <span id="whatsapp-text">3054460425</span></a></b></p>
+        </section>
+
+    </div>
+
+    <iframe id="google-maps-iframe"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.281191074522!2d-74.18524422426843!3d11.240713250456832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef4f558e414d26f%3A0x65488cd0c89bd22d!2sSAN%20GABRIEL%20HOSPITAL%20VETERINARIO!5e0!3m2!1ses-419!2sco!4v1752013560343!5m2!1ses-419!2sco"
+        width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="dynamic-hero.js"></script>
+    <script src="keep-alive.js"></script>
+</body>
+
+</html>

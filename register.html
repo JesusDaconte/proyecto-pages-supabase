@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MagVet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="shortcut icon" href="assets/MagVet.png" type="image/x-icon">
+    <!-- Cargamos primero la configuración de Supabase -->
+    <script src="supabase-config.js"></script>
+    <!-- Luego nuestro código de autenticación -->
+    <script src="auth.js"></script>
+    <style>
+        /* Tus estilos CSS aquí */
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+    <h2>Registro</h2>
+    <form id="registerForm" class="auth-form">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" required minlength="6">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirmar Contraseña</label>
+            <input type="password" id="confirmPassword" required minlength="6">
+        </div>
+        <button type="submit">Registrarse</button>
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+    </form>
+    <div class="auth-links">
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+    </div>
+</div>
+</body>
+</html>
